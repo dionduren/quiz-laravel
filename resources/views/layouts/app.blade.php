@@ -45,6 +45,10 @@
         .bi {
             font-size: 1.5rem;
         }
+
+        .capitalize {
+            text-transform: capitalize;
+        }
     </style>
 
     <!-- Bootstrap Icons -->
@@ -67,17 +71,20 @@
 
             @if (request()->routeIs('main_menu'))
                 <div class="ms-auto d-flex align-items-center">
-                    <a href="{{ route('teams.scoreboard') }}" class="nav-link px-4" style="color: #00c0ff;">View
-                        Scoreboard</a>
+                    <a href="https://www.multibuzz.app/" class="nav-link px-4" style="color: #ffffff;">Aplikasi Bell
+                        Quiz</a>
+
+                    <a href="{{ route('teams.scoreboard') }}" class="nav-link px-4"
+                        style="color: #00c0ff;">Scoreboard</a>
 
                     <div class="dropdown">
                         <a class="nav-link dropdown-toggle px-4" href="#" id="manageQuizDropdown" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false" style="color: #28a745;">
-                            Manage Quiz
+                            Manage Pertanyaan
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="manageQuizDropdown">
-                            <li><a class="dropdown-item" href="{{ route('quiz.create') }}">Create Question</a></li>
-                            <li><a class="dropdown-item" href="{{ route('quiz.index') }}">Edit Questions</a></li>
+                            <li><a class="dropdown-item" href="{{ route('quiz.create') }}">Buat Pertanyaan</a></li>
+                            <li><a class="dropdown-item" href="{{ route('quiz.index') }}">Edit Pertanyaan</a></li>
                         </ul>
                     </div>
 

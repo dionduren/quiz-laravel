@@ -18,7 +18,7 @@ class QuizController extends Controller
 
     public function showSession($sessionId, $questionIndex = 0)
     {
-        $quizzes = Quiz::where('session', $sessionId)->orderBy('id')->get();
+        $quizzes = Quiz::where('session', $sessionId)->orderBy('question_number')->get();
         $teams = Team::all();  // Fetch all teams
         $totalQuestions = $quizzes->count();
 
@@ -156,13 +156,23 @@ class QuizController extends Controller
             $quiz->lyrics_json = $request->input('lyrics_json');
         }
 
+        // Handle answer audio upload
+        if ($request->hasFile('answer_audio')) {
+            $answerAudioPath = $request->file('answer_audio')->store('audio', 'public');
+            $quiz->answer_audio = $answerAudioPath;
+        }
+
+
         $quiz->save();
 
         // Return JSON response and redirect to main menu
-        return response()->json([
-            'message' => 'Question created successfully!',
-            'redirect_url' => route('main_menu'), // Provide the main menu route URL in the response
-        ]);
+
+        return redirect()->route('quiz.create', $quiz->id)->with('success', 'Question updated successfully!');
+
+        // return response()->json([
+        //     'message' => 'Question created successfully!',
+        //     'redirect_url' => route('main_menu'), // Provide the main menu route URL in the response
+        // ]);
     }
 
     public function update(Request $request, $id)
@@ -174,6 +184,7 @@ class QuizController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'audio' => 'nullable|mimes:mp3,wav,m4a|max:10000', // Include m4a in validation
             'lyrics_json' => 'nullable|json',
+            'answer_audio' => 'nullable|mimes:mp3,wav,m4a|max:10000',
             'session' => 'required|integer',
             'question_number' => 'required|integer|unique:quizzes,question_number,' . $id . ',id,session,' . $request->session,
         ]);
@@ -202,15 +213,25 @@ class QuizController extends Controller
             $quiz->lyrics_json = $request->input('lyrics_json');
         }
 
+        // Handle answer audio upload
+        if ($request->hasFile('answer_audio')) {
+            $answerAudioPath = $request->file('answer_audio')->store('audio', 'public');
+            $quiz->answer_audio = $answerAudioPath;
+        }
+
+
         $quiz->save();
 
-        return redirect()->route('quiz.edit')->with('success', 'Question updated successfully!');
+        // return redirect()->route('quiz.edit')->with('success', 'Question updated successfully!');
+        return redirect()->route('quiz.edit', $quiz->id)->with('success', 'Question updated successfully!');
     }
 
     public function indexQuizzes()
     {
-        // Fetch all quizzes
-        $quizzes = Quiz::all();
+        // Retrieve quizzes sorted by session and question number
+        $quizzes = Quiz::orderBy('session')->orderBy('question_number')->get();
+
+        // Pass the sorted quizzes to the view
         return view('quizzes.index', compact('quizzes'));
     }
 

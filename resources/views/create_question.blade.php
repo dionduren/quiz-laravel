@@ -26,6 +26,7 @@
                     <option value="4">Session 4</option>
                     <option value="5">Session 5</option>
                     <option value="6">Session 6</option>
+                    <option value="7">Session Training</option>
                 </select>
             </div>
 
@@ -33,12 +34,12 @@
             <div class="mb-3">
                 <label for="category" class="form-label">Category</label>
                 <select name="category" id="category" class="form-select" required>
-                    <option value="general knowledge">General Knowledge</option>
-                    <option value="guess the picture">Guess the Picture</option>
-                    <option value="quick counting">Quick Counting</option>
-                    <option value="guess the word">Guess the Word</option>
-                    <option value="guess the song name">Guess the Song Name</option>
-                    <option value="guess the lyric">Guess the Lyric</option>
+                    <option value="Pengetahuan Umum">Pengetahuan Umum</option>
+                    <option value="Tebak Gambar">Tebak Gambar</option>
+                    <option value="Mencongak">Mencongak</option>
+                    <option value="TTS Cak Montong">TTS Cak Montong</option>
+                    <option value="Tebak Judul">Tebak Judul</option>
+                    <option value="Sambung Lirik">Sambung Lirik</option>
                 </select>
             </div>
 
@@ -51,7 +52,7 @@
             <!-- Question Input -->
             <div class="mb-3">
                 <label for="question" class="form-label">Question</label>
-                <input type="text" name="question" id="question" class="form-control" required>
+                <textarea name="question" id="question" class="form-control" rows="5" required>{{ old('question') }}</textarea>
             </div>
 
             <!-- Answer Input -->
@@ -78,6 +79,12 @@
                 <textarea name="lyrics_json" id="lyrics_json" class="form-control" rows="5"></textarea>
                 <small class="form-text text-muted">Enter the lyrics in JSON format with timestamps.</small>
             </div>
+
+            <div class="mb-3">
+                <label for="answer_audio" class="form-label">Upload Answer Audio (Optional)</label>
+                <input type="file" name="answer_audio" id="answer_audio" class="form-control" accept="audio/*">
+            </div>
+
 
             <!-- Submit Button -->
             <button type="submit" id="submit-button" class="btn btn-primary">Create Question</button>
@@ -110,7 +117,7 @@
                     success: function(response) {
                         alert(response.message); // Show success message
                         window.location.href = response
-                        .redirect_url; // Redirect to the main menu
+                            .redirect_url; // Redirect to the main menu
                     },
                     error: function(xhr) {
                         var errors = xhr.responseJSON.errors;

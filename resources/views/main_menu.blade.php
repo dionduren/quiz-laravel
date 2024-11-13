@@ -24,6 +24,7 @@
                             <option value="4">Session 4</option>
                             <option value="5">Session 5</option>
                             <option value="6">Session 6</option>
+                            <option value="7">Session Training</option>
                         </select>
                     </div>
 

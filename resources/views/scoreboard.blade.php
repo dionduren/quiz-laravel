@@ -3,6 +3,21 @@
 @section('title', 'Scoreboard')
 
 @section('content')
+
+    @php
+        $teams = $teams
+            ->map(function ($team) use ($sessions) {
+                $totalScore = 0;
+                foreach ($sessions as $session) {
+                    $score = $team->teamScores->where('session', $session)->first()->score ?? 0;
+                    $totalScore += $score;
+                }
+                $team->totalScore = $totalScore;
+                return $team;
+            })
+            ->sortByDesc('totalScore');
+    @endphp
+
     <div class="container mt-5">
         <h1>Scoreboard</h1>
 
@@ -19,7 +34,9 @@
             <tbody>
                 @foreach ($teams as $team)
                     <tr>
-                        <td>{{ $team->name }}</td>
+                        <td style="background-color: {{ $team->color }}; color: {{ $team->font_color }};">
+                            {{ $team->name }}
+                        </td>
                         @php
                             $totalScore = 0;
                         @endphp

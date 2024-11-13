@@ -27,6 +27,7 @@
                     <option value="4" {{ $quiz->session == 4 ? 'selected' : '' }}>Session 4</option>
                     <option value="5" {{ $quiz->session == 5 ? 'selected' : '' }}>Session 5</option>
                     <option value="6" {{ $quiz->session == 6 ? 'selected' : '' }}>Session 6</option>
+                    <option value="7" {{ $quiz->session == 7 ? 'selected' : '' }}>Session Training</option>
                 </select>
             </div>
 
@@ -34,18 +35,17 @@
             <div class="mb-3">
                 <label for="category" class="form-label">Category</label>
                 <select name="category" id="category" class="form-select" required>
-                    <option value="general knowledge" {{ $quiz->category == 'general knowledge' ? 'selected' : '' }}>General
-                        Knowledge</option>
-                    <option value="guess the picture" {{ $quiz->category == 'guess the picture' ? 'selected' : '' }}>Guess
-                        the Picture</option>
-                    <option value="quick counting" {{ $quiz->category == 'quick counting' ? 'selected' : '' }}>Quick
-                        Counting</option>
-                    <option value="guess the word" {{ $quiz->category == 'guess the word' ? 'selected' : '' }}>Guess the
-                        Word</option>
-                    <option value="guess the song name" {{ $quiz->category == 'guess the song name' ? 'selected' : '' }}>
-                        Guess the Song Name</option>
-                    <option value="guess the lyric" {{ $quiz->category == 'guess the lyric' ? 'selected' : '' }}>Guess the
-                        Lyric</option>
+                    <option value="Pengetahuan Umum" {{ $quiz->category == 'pengetahuan umum' ? 'selected' : '' }}>
+                        Pengetahuan Umum</option>
+                    <option value="Tebak Gambar" {{ $quiz->category == 'Tebak Gambar' ? 'selected' : '' }}>Tebak Gambar
+                    </option>
+                    <option value="Mencongak" {{ $quiz->category == 'Mencongak' ? 'selected' : '' }}>Mencongak</option>
+                    <option value="TTS Cak Montong" {{ $quiz->category == 'TTS Cak Montong' ? 'selected' : '' }}>TTS Cak
+                        Montong</option>
+                    <option value="Tebak Judul" {{ $quiz->category == 'Tebak Judul' ? 'selected' : '' }}>Tebak Judul
+                    </option>
+                    <option value="Sambung Lirik" {{ $quiz->category == 'Sambung Lirik' ? 'selected' : '' }}>Sambung Lirik
+                    </option>
                 </select>
             </div>
 
@@ -62,8 +62,7 @@
             <!-- Question Input -->
             <div class="mb-3">
                 <label for="question" class="form-label">Question</label>
-                <input type="text" name="question" id="question" class="form-control" value="{{ $quiz->question }}"
-                    required>
+                <textarea name="question" id="question" class="form-control" rows="5" required>{{ old('question', $quiz->question) }}</textarea>
             </div>
 
             <!-- Answer Input -->
@@ -101,6 +100,24 @@
                 <textarea name="lyrics_json" id="lyrics_json" class="form-control" rows="5">{{ old('lyrics_json', $quiz->lyrics_json) }}</textarea>
                 <small class="form-text text-muted">Enter the lyrics in JSON format with timestamps.</small>
             </div>
+
+            <div class="mb-3">
+                <label for="answer_audio" class="form-label">Upload Answer Audio (Optional)</label>
+                <input type="file" name="answer_audio" id="answer_audio" class="form-control" accept="audio/*">
+            </div>
+
+            <!-- Existing Answer Audio Preview -->
+            @if ($quiz->answer_audio)
+                <div class="mb-3">
+                    <label class="form-label">Current Answer Audio</label>
+                    <br>
+                    <audio controls>
+                        <source src="{{ asset('storage/' . $quiz->answer_audio) }}" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                </div>
+            @endif
+
 
             <!-- Submit Button -->
             <button type="submit" class="btn btn-primary">Update Question</button>
